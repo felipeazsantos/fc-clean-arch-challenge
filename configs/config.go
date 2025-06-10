@@ -1,6 +1,11 @@
 package configs
 
-import "github.com/spf13/viper"
+import (
+	"database/sql"
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 type conf struct {
 	DBDriver          string `mapstructure:"db_driver"`
@@ -29,4 +34,24 @@ func LoadConfig(path string) (*conf, error) {
 		return nil, err
 	}
 	return cfg, nil
+}
+
+func ConnectDB(cfg *conf) (*sql.DB, error) {
+	db, err := sql.Open(cfg.DBDriver, fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
+		cfg.DBUser,
+		cfg.DBPass,
+		cfg.DBHost,
+		cfg.DBPort,
+		cfg.DBName,
+	))
+	if err != nil {
+		return nil, err
+	}
+
+	if err := db.Ping(); err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
