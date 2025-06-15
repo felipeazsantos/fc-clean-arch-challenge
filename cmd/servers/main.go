@@ -1,9 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/configs"
+	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/database"
+	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/web"
+	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/web/webserver"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/usecase"
 )
 
@@ -18,6 +22,16 @@ func main() {
 		log.Fatal("cannot connect with DB:", err)
 	}
 
-	 _ = usecase.NewListOrdersUseCase()
+	orderRepository := database.NewOrderRepository(db)
+	createOrderUseCase := usecase.NewCreateOrderUseCase(orderRepository)
+	listOrdersUseCase := usecase.NewListOrdersUseCase(orderRepository)
+
+	webserver := webserver.NewWebServer(cfg.WebServerPort)
+	webOrderHandler := web.NewWebOrderHandler(orderRepository)
+	webserver.AddHandler("/orders/create", webOrderHandler.Create)
+	webserver.AddHandler("/orders/list", webOrderHandler.ListOrders)
+
+	fmt.Println("Starting web server on port:", cfg.WebServerPort)
+	go webserver.Start()
 
 }
