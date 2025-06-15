@@ -14,7 +14,7 @@ import (
 func main() {
 	cfg, err := configs.LoadConfig(".")
 	if err != nil {
-		panic("failed to load config: " + err.Error())
+		log.Fatal("failed to load config: " + err.Error())
 	}
 
 	db, err := configs.ConnectDB(cfg)
