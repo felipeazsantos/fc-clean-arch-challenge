@@ -2,27 +2,24 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+
+type Order {
+  id: String!
+  Price: Float!
+  Tax: Float!
+  FinalPrice: Float!
 }
 
-type User {
-  id: ID!
-  name: String!
+input OrderInput {
+  id: String!
+  Price: Float!
+  Tax: Float!
 }
 
 type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
+  listOrders: [Order]
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createOrder(input: OrderInput): Order
 }
