@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 
+	graphql_handler "github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/configs"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/database"
+	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/graph"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/grpc/pb"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/grpc/service"
 	"github.com/felipeazsantos/pos-goexpert/fc-clean-arch-challenge/internal/infra/web"
@@ -51,6 +55,16 @@ func main() {
 	}
 	go grpcServer.Serve(lis)
 
-	
+	srv := graphql_handler.New(graph.NewExecutableSchema(graph.Config{
+		Resolvers: &graph.Resolver{
+			CreateOrderUseCase: createOrderUseCase,
+			ListOrdersUseCase:  listOrdersUseCase,
+		},
+	}))
 
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
+
+	fmt.Println("Starting GraphQL server on port:", cfg.GraphqlServerPort)
+	http.ListenAndServe(fmt.Sprintf(":%s", cfg.GraphqlServerPort), nil)
 }
