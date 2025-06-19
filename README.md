@@ -119,15 +119,16 @@ query listOrders {
 
 Todos os três endpoints (REST, gRPC e GraphQL) compartilham a mesma camada de domínio e casos de uso, seguindo os princípios da Clean Architecture.
 
-## Configuração do Banco de Dados
+## Desenvolvimento
+
+### Configuração do Banco de Dados
 
 O banco de dados MySQL está configurado com as seguintes configurações:
 - Host: localhost
 - Porta: 3307
 - Banco de Dados: orders
-- Senha Root: root
 
-## Desenvolvimento
+### Executando a Aplicação
 
 Para executar a aplicação localmente sem Docker:
 
