@@ -73,26 +73,22 @@ Acesse o playground GraphQL em: http://localhost:8080
 
 ```graphql
 # Criar um novo pedido
-mutation CreateOrder {
-  createOrder(input: {
-    id: "abc",
-    price: 100.0,
-    tax: 10.0
-  }) {
+mutation createOrder{
+  createOrder(input: {id:"abc", Price: 200.0, Tax: 5.0}) {
     id
-    price
-    tax
-    finalPrice
+    Price
+    Tax
+    FinalPrice
   }
 }
 
 # Listar todos os pedidos
-query ListOrders {
-  orders {
+query listOrders {
+  listOrders {
     id
-    price
-    tax
-    finalPrice
+    Price
+    Tax
+    FinalPrice
   }
 }
 ```
