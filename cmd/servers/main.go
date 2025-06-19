@@ -55,7 +55,7 @@ func main() {
 	}
 	go grpcServer.Serve(lis)
 
-	srv := graphql_handler.New(graph.NewExecutableSchema(graph.Config{
+	srv := graphql_handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{
 		Resolvers: &graph.Resolver{
 			CreateOrderUseCase: createOrderUseCase,
 			ListOrdersUseCase:  listOrdersUseCase,
