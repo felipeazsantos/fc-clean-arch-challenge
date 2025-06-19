@@ -21,7 +21,7 @@ import (
 )
 
 func main() {
-	cfg, err := configs.LoadConfig(".")
+	cfg, err := configs.LoadConfig("./cmd/servers/")
 	if err != nil {
 		log.Fatal("failed to load config: " + err.Error())
 	}
@@ -37,8 +37,8 @@ func main() {
 
 	webserver := webserver.NewWebServer(cfg.WebServerPort)
 	webOrderHandler := web.NewWebOrderHandler(orderRepository)
-	webserver.AddHandler("/orders/create", webOrderHandler.Create)
-	webserver.AddHandler("/orders/list", webOrderHandler.ListOrders)
+	webserver.AddHandler("POST", "/orders/create", webOrderHandler.Create)
+	webserver.AddHandler("GET", "/orders/list", webOrderHandler.ListOrders)
 
 	fmt.Println("Starting web server on port:", cfg.WebServerPort)
 	go webserver.Start()

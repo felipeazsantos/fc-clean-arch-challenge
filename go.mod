@@ -5,6 +5,7 @@ go 1.24.3
 require (
 	github.com/99designs/gqlgen v0.17.75
 	github.com/go-chi/chi/v5 v5.2.1
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/mattn/go-sqlite3 v1.14.28
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
@@ -14,6 +15,7 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect

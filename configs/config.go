@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type conf struct {
@@ -21,10 +22,9 @@ type conf struct {
 
 func LoadConfig(path string) (*conf, error) {
 	var cfg *conf
-	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
 	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
+	viper.SetConfigFile(path + "/.env")
 	err := viper.ReadInConfig()
 	if err != nil {
 		return nil, err
