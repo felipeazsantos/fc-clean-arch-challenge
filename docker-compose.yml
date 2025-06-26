@@ -10,6 +10,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_clean_arch:/var/lib/mysql
+      - ./internal/infra/database/migrations/000001_init_schema.up.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysql_clean_arch:
